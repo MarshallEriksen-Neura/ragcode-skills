@@ -24,7 +24,7 @@ Server name: `ragcode` (stdio). All tools accept `repoRoot` (optional when a wor
 - `find_symbol` `{ repoRoot?, name }` — exact symbol lookup.
 - `explain_file` `{ repoRoot?, filePath }` — file card with chunks and symbols.
 - `find_reuse_candidates` `{ repoRoot?, query, limit?, reuseGuard? }` — existing implementations to reuse before writing new code; `reuseGuard: true` hard-blocks confirmed duplicates.
-- `trace_request_flow` / `explain_impact` / `expand_node` / `topology_map` — verified graph evidence and node expansion under budget.
+- `trace_request_flow` / `explain_impact` / `verified_subgraph` / `expand_node` / `topology_map` — verified graph evidence and node expansion under budget.
 
 ## Recommended flows
 

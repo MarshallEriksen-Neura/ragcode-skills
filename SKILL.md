@@ -1,6 +1,6 @@
 ---
 name: ragcode-context
-description: Route code-understanding, debugging, editing, review, ownership, impact, and test questions through RagCode. Prefer MCP tools (get_context, find_owner, impact_analysis, related_tests, trace_flow, review_diff); fall back to the ragcode CLI when MCP is unavailable. Covers index recovery, watcher freshness, embedding configuration, service setup, and dashboard-only-for-observation guidance.
+description: Route code-understanding, debugging, editing, review, ownership, impact, and test questions through RagCode. Prefer MCP tools (get_context, find_owner, impact_analysis, related_tests, trace_flow, review_diff); fall back to the ragcode CLI when MCP is unavailable. Covers index recovery, watcher freshness, embedding configuration, service setup, CLI updates, and dashboard-only-for-observation guidance.
 ---
 
 # RagCode Context
@@ -14,7 +14,7 @@ RagCode is a local code-intelligence engine exposed to agents through MCP tools 
 - "What breaks if I change X?" → impact analysis
 - "Which tests cover X?" → related tests
 - "Review this diff" → diff review
-- Index is missing/stale, or embedding/config questions → recovery/config flow below
+- Index is missing/stale, watcher freshness is suspect, or embedding/config questions → recovery/config flow below
 
 ## MCP-first routing
 
@@ -39,6 +39,7 @@ Read `references/mcp-tools.md` for argument details.
 ```bash
 ragcode doctor <repoRoot> --query "smoke query"   # health + config check
 ragcode status <repoRoot>                          # index freshness
+ragcode service status <repoRoot>                  # background watcher service/liveness status
 ragcode context <repoRoot> "<query>"               # context pack
 ragcode owner <repoRoot> "<query>"                 # ownership
 ragcode impact <repoRoot> <fileOrSymbol>           # impact analysis
