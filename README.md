@@ -41,7 +41,7 @@ For automatic freshness, install the background watcher service:
 ragcode service install .
 ```
 
-Without the service, the skill still works, but index freshness depends on manual `ragcode index .`, `ragcode refresh_index` through MCP, or a foreground `ragcode watch .` process.
+Without the service, the skill still works, but index freshness depends on manual `ragcode index .`, `ragcode refresh .`, `refresh_index` through MCP, or a foreground `ragcode watch .` process.
 
 ## What The Skill Does
 

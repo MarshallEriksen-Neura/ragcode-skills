@@ -31,5 +31,5 @@ Server name: `ragcode` (stdio). All tools accept `repoRoot` (optional when a wor
 - Code change: `get_context` → edit → `related_tests` → `review_diff`.
 - "Where do I fix X?": `find_owner` → `get_context` on the owner.
 - Risky refactor: `impact_analysis` → `verified_subgraph` (mode `impact`) → `related_tests`.
-- Stale/no data: `index_status` → `index_repo` → retry original tool.
+- Stale/no data: `index_status` → `refresh_index` for stale indexed repos or `index_repo` for missing indexes → retry original tool.
 - Auto-refresh concern: `watch_status`; if not running, use/suggest `ragcode service install <repoRoot>` for persistent freshness or `ragcode watch <repoRoot>` for a foreground watcher.

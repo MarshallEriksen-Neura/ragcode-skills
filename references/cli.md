@@ -14,6 +14,7 @@ ragcode service status <repoRoot>                  # background watcher service/
 
 ```bash
 ragcode index <repoRoot>          # full/incremental index
+ragcode refresh <repoRoot>        # refresh an already-indexed repo
 ragcode index <repoRoot> [--max-batch-files N] [--max-analysis-memory-mb N]
 ragcode index <repoRoot> --semantic-on-bootstrap  # also write vectors for first partial bootstrap batch
 ragcode index <repoRoot> --full                   # force legacy all-at-once index

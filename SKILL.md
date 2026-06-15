@@ -39,6 +39,7 @@ Read `references/mcp-tools.md` for argument details.
 ```bash
 ragcode doctor <repoRoot> --query "smoke query"   # health + config check
 ragcode status <repoRoot>                          # index freshness
+ragcode refresh <repoRoot>                         # refresh an already-indexed repo
 ragcode service status <repoRoot>                  # background watcher service/liveness status
 ragcode context <repoRoot> "<query>"               # context pack
 ragcode owner <repoRoot> "<query>"                 # ownership
@@ -51,8 +52,9 @@ Read `references/cli.md` for the full command list.
 ## Missing or stale index recovery
 
 1. Check: `index_status` (MCP) or `ragcode status <repoRoot>`.
-2. If missing/stale: `index_repo` (MCP) or run/suggest `ragcode index <repoRoot>`.
-3. Retry the original tool after indexing.
+2. If missing: `index_repo` (MCP) or run/suggest `ragcode index <repoRoot>`.
+3. If stale: `refresh_index` (MCP) or run/suggest `ragcode refresh <repoRoot>`.
+4. Retry the original tool after indexing/refreshing.
 
 ## Configuration path
 
