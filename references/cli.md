@@ -7,6 +7,8 @@ All read commands require the repo to be indexed first (`ragcode index <repoRoot
 ```bash
 ragcode doctor [repoRoot] --query "<smoke query>"  # deps, runtime config (redacted), MCP registration, optional index/search smoke
 ragcode status <repoRoot>                          # persisted index + dirty watcher state, no indexing
+ragcode status-human <repoRoot>                    # human-readable watch/index/embedding status
+ragcode status-ui <repoRoot>                       # alias for status-human
 ragcode service status <repoRoot>                  # background watcher service/liveness status
 ```
 

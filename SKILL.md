@@ -41,6 +41,7 @@ ragcode doctor <repoRoot> --query "smoke query"   # health + config check
 ragcode status <repoRoot>                          # index freshness
 ragcode refresh <repoRoot>                         # refresh an already-indexed repo
 ragcode service status <repoRoot>                  # background watcher service/liveness status
+ragcode status-human <repoRoot>                    # human-readable watch/index/embedding status
 ragcode context <repoRoot> "<query>"               # context pack
 ragcode owner <repoRoot> "<query>"                 # ownership
 ragcode impact <repoRoot> <fileOrSymbol>           # impact analysis
