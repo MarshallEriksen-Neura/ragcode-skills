@@ -11,7 +11,7 @@ Server name: `ragcode` (stdio). All tools accept `repoRoot` (optional when a wor
 
 ## Primary retrieval tools (prefer these)
 
-- `get_context` `{ repoRoot?, query, mode?, budgetChars?, limit? }` — agent-ready context pack with snippets, topology, and coverage. Modes: `debug`, `feature`, `refactor`, `review`, `explain`.
+- `get_context` `{ repoRoot?, query, mode?, budgetChars?, limit?, format? }` — agent-ready context pack with snippets, topology, coverage, query-plan diagnostics, and optional `format: "json" | "markdown"`. Modes: `debug`, `feature`, `refactor`, `review`, `explain`.
 - `find_owner` `{ repoRoot?, query, limit? }` — likely owner files/symbols for a behavior.
 - `impact_analysis` `{ repoRoot?, target }` — structural blast radius for a file or symbol.
 - `related_tests` `{ repoRoot?, target }` — tests covering a target.
@@ -31,5 +31,7 @@ Server name: `ragcode` (stdio). All tools accept `repoRoot` (optional when a wor
 - Code change: `get_context` → edit → `related_tests` → `review_diff`.
 - "Where do I fix X?": `find_owner` → `get_context` on the owner.
 - Risky refactor: `impact_analysis` → `verified_subgraph` (mode `impact`) → `related_tests`.
+- Chinese/code-mixed query: preserve the user query, add exact symbols/paths if known, call `get_context`, then inspect `trace.queryPlan.detectedLanguage`, `termCategories`, and weighted match reasons.
+- Reranker concern: inspect `diagnostics.reranker.status`, `provider`, `candidateCount`, `scoredCount`, and `error`; failed external reranker calls should still have graph-reranked fallback results.
 - Stale/no data: `index_status` → `refresh_index` for stale indexed repos or `index_repo` for missing indexes → retry original tool.
 - Auto-refresh concern: `watch_status`; if not running, use/suggest `ragcode service install <repoRoot>` for persistent freshness or `ragcode watch <repoRoot>` for a foreground watcher.

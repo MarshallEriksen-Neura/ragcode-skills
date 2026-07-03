@@ -6,6 +6,8 @@ Reusable agent skill for using [RagCode](https://github.com/MarshallEriksen-Neur
 
 The `ragcode-context` skill teaches coding agents to use RagCode before manually reading files when they need code understanding, ownership, impact analysis, related tests, request-flow tracing, or diff review. It prefers RagCode MCP tools and falls back to the `ragcode` CLI when MCP is unavailable.
 
+The skill also preserves Chinese and code-mixed user questions: agents should pass the original intent to RagCode, add exact symbols or paths when known, and inspect query-plan/reranker diagnostics before concluding context is missing.
+
 ## Install
 
 ```bash
@@ -48,6 +50,7 @@ Without the service, the skill still works, but index freshness depends on manua
 - Routes code questions to `get_context` or `find_owner` first.
 - Uses `impact_analysis`, `related_tests`, and flow tools before risky edits.
 - Checks `index_status` and `watch_status` when freshness matters.
+- Reads language-aware query traces, domain term categories, and reranker status when search quality matters.
 - Falls back to CLI commands such as `ragcode context`, `ragcode owner`, and `ragcode tests` when MCP is not available.
 - Keeps setup/configuration in the terminal; the RagCode dashboard is observation-only.
 

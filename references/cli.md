@@ -53,6 +53,19 @@ ragcode update [--check]              # update globally-installed RagCode CLI, o
 ragcode dashboard                    # Web observability API (humans only)
 ```
 
+External reranking is configured separately from embeddings through env/config keys, not a separate CLI command:
+
+```bash
+export RAGCODE_RERANK_PROVIDER=openai-compatible
+export RAGCODE_RERANK_BASE_URL=https://your-router.example/v1
+export RAGCODE_RERANK_API_KEY=your-key
+export RAGCODE_RERANK_MODEL=your-rerank-model
+export RAGCODE_RERANK_PATH=/rerank
+export RAGCODE_RERANK_TOP_N=80
+```
+
+`RAGCODE_RRANK_*` aliases are accepted. `ragcode configure --show` and diagnostics redact secrets.
+
 ## Error recovery
 
 - "Repository is not indexed" → run `ragcode index <repoRoot>`, retry.

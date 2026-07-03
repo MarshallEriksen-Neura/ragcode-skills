@@ -15,6 +15,7 @@ RagCode is a local code-intelligence engine exposed to agents through MCP tools 
 - "Which tests cover X?" → related tests
 - "Review this diff" → diff review
 - Index is missing/stale, watcher freshness is suspect, or embedding/config questions → recovery/config flow below
+- Chinese/code-mixed code questions → preserve the user's Chinese intent, add exact symbols/paths when available, then call RagCode instead of manually translating away evidence
 
 ## MCP-first routing
 
@@ -33,6 +34,8 @@ Prefer these MCP tools (server name: `ragcode`):
 | (Re)build the index | `index_repo` |
 
 Read `references/mcp-tools.md` for argument details.
+
+`get_context` traces include query-plan intent, detected language, term categories, graph/semantic/reranker diagnostics, and ablation flags. Use those diagnostics before deciding retrieval is incomplete.
 
 ## CLI fallback (MCP unavailable)
 
@@ -61,6 +64,7 @@ Read `references/cli.md` for the full command list.
 
 - First run: `ragcode init` (offline-first defaults: sqlite + lancedb + deterministic embeddings; no API key needed).
 - Change storage/embedding provider/model/base URL/dimensions: `ragcode configure` (add `--test` to verify the provider).
+- External reranker configuration is separate from embeddings. Use `RAGCODE_RERANK_*` / `RAGCODE_RRANK_*` settings for an OpenAI-compatible `/rerank` endpoint; failed reranker calls fall back to local graph reranking.
 - Agent/MCP client config: `ragcode setup-mcp --print` (secrets redacted by default).
 - Background freshness: `ragcode service install <repoRoot>` for a persistent watcher, or `ragcode watch <repoRoot>` for a foreground watcher.
 - CLI update: `ragcode update` when the local RagCode CLI is globally installed.
