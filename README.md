@@ -2,28 +2,38 @@
 
 [![skills.sh](https://skills.sh/b/MarshallEriksen-Neura/ragcode-skills)](https://skills.sh/MarshallEriksen-Neura/ragcode-skills)
 
-Reusable agent skill for using [RagCode](https://github.com/MarshallEriksen-Neura/ragcode) as a local code-intelligence context layer.
+Reusable agent skills for using [RagCode](https://github.com/MarshallEriksen-Neura/ragcode) as a local code-intelligence and shared-memory layer.
 
-The `ragcode-context` skill teaches coding agents to use RagCode before manually reading files when they need code understanding, ownership, impact analysis, related tests, request-flow tracing, or diff review. It prefers RagCode MCP tools and falls back to the `ragcode` CLI when MCP is unavailable.
+This repository is the source bundle for two skills:
 
-The skill also preserves Chinese and code-mixed user questions: agents should pass the original intent to RagCode, add exact symbols or paths when known, and inspect query-plan/reranker diagnostics before concluding context is missing.
+- `ragcode-context` routes code understanding, ownership, impact, related-test, flow, review, freshness, and setup questions through RagCode MCP tools first, with CLI fallback.
+- `ragcode-memory` routes project-scoped shared memory work through RagCode MCP memory tools (`memory_write`, `memory_query`, `memory_list`, `memory_delete`) so decisions, preferences, and cross-agent feedback persist.
 
 ## Install
+
+Install both RagCode skills:
 
 ```bash
 npx skills add MarshallEriksen-Neura/ragcode-skills
 ```
 
-Install only this skill explicitly:
+Install only one skill explicitly:
 
 ```bash
 npx skills add MarshallEriksen-Neura/ragcode-skills --skill ragcode-context
+npx skills add MarshallEriksen-Neura/ragcode-skills --skill ragcode-memory
 ```
 
 Install globally instead of project-local:
 
 ```bash
 npx skills add MarshallEriksen-Neura/ragcode-skills --global
+```
+
+Update installed RagCode skills:
+
+```bash
+npx skills update ragcode-context ragcode-memory
 ```
 
 ## Prerequisites
@@ -43,16 +53,7 @@ For automatic freshness, install the background watcher service:
 ragcode service install .
 ```
 
-Without the service, the skill still works, but index freshness depends on manual `ragcode index .`, `ragcode refresh .`, `refresh_index` through MCP, or a foreground `ragcode watch .` process.
-
-## What The Skill Does
-
-- Routes code questions to `get_context` or `find_owner` first.
-- Uses `impact_analysis`, `related_tests`, and flow tools before risky edits.
-- Checks `index_status` and `watch_status` when freshness matters.
-- Reads language-aware query traces, domain term categories, and reranker status when search quality matters.
-- Falls back to CLI commands such as `ragcode context`, `ragcode owner`, and `ragcode tests` when MCP is not available.
-- Keeps setup/configuration in the terminal; the RagCode dashboard is observation-only.
+Without the service, the skills still work, but index and memory freshness depend on manual `ragcode index .`, `ragcode refresh .`, `refresh_index` through MCP, or a foreground `ragcode watch .` process.
 
 ## Verify
 
@@ -62,18 +63,34 @@ List skills in this repository:
 npx skills add MarshallEriksen-Neura/ragcode-skills --list
 ```
 
+The expected list is:
+
+```text
+ragcode-context
+ragcode-memory
+```
+
 Generate a one-off prompt without installing:
 
 ```bash
 npx skills use MarshallEriksen-Neura/ragcode-skills --skill ragcode-context
+npx skills use MarshallEriksen-Neura/ragcode-skills --skill ragcode-memory
 ```
+
+## Publishing
+
+The `MarshallEriksen-Neura/ragcode-skills` repository should publish this bundle layout as its root: root `README.md`, sibling `ragcode-context/`, and sibling `ragcode-memory/`. Publishing only `ragcode-context/` makes `npx skills add MarshallEriksen-Neura/ragcode-skills` discover only `ragcode-context`, leaving `ragcode-memory` out of normal install and update flows.
 
 ## Files
 
 ```text
-SKILL.md                 # agent routing instructions
-agents/openai.yaml       # OpenAI/Codex metadata
-references/cli.md        # CLI fallback reference
-references/mcp-tools.md  # MCP tool reference
-```
+ragcode-context/
+  SKILL.md                 # agent routing instructions for code intelligence
+  agents/openai.yaml       # OpenAI/Codex metadata
+  references/cli.md        # CLI fallback reference
+  references/mcp-tools.md  # MCP tool reference
 
+ragcode-memory/
+  SKILL.md                 # agent routing instructions for shared memory
+  agents/openai.yaml       # OpenAI/Codex metadata
+```

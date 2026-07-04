@@ -1,0 +1,4 @@
+interface:
+  display_name: "RagCode Memory"
+  short_description: "Read and write shared cross-AI project memories"
+  default_prompt: "Use $ragcode-memory to read project decisions, user preferences, and feedback from other agents before acting, and to record new insights with memory_write. Explore memoryHints/memorySnippets when they appear in tool output."
