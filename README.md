@@ -47,13 +47,15 @@ ragcode setup-mcp --client codex
 ragcode index .
 ```
 
-For automatic freshness, install the background watcher service:
+Read-time freshness is lazy by default: RagCode refreshes stale indexed files before answering. For a resident background process, choose a service mode explicitly:
 
 ```bash
-ragcode service install .
+ragcode service install . --mode supervisor
+# or, for the legacy always-live watcher:
+ragcode service install . --mode hot
 ```
 
-Without the service, the skills still work, but index and memory freshness depend on manual `ragcode index .`, `ragcode refresh .`, `refresh_index` through MCP, or a foreground `ragcode watch .` process.
+Without a background service, the skills still work. Missing indexes still need `ragcode index .` / `index_repo`; stale indexed files can be refreshed by read-time freshness, `ragcode refresh .`, `refresh_index` through MCP, or a foreground `ragcode watch .` process.
 
 ## Verify
 

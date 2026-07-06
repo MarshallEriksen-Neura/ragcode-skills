@@ -41,7 +41,8 @@ Read `references/mcp-tools.md` for argument details.
 
 ```bash
 ragcode doctor <repoRoot> --query "smoke query"   # health + config check
-ragcode status <repoRoot>                          # index freshness
+ragcode status <repoRoot>                          # light index freshness
+ragcode status <repoRoot> --full                   # detailed graph/semantic counts
 ragcode refresh <repoRoot>                         # refresh an already-indexed repo
 ragcode service status <repoRoot>                  # background watcher service/liveness status
 ragcode status-human <repoRoot>                    # human-readable watch/index/embedding status
@@ -66,7 +67,7 @@ Read `references/cli.md` for the full command list.
 - Change storage/embedding provider/model/base URL/dimensions: `ragcode configure` (add `--test` to verify the provider).
 - External reranker configuration is separate from embeddings. Use `RAGCODE_RERANK_*` / `RAGCODE_RRANK_*` settings for an OpenAI-compatible `/rerank` endpoint; failed reranker calls fall back to local graph reranking.
 - Agent/MCP client config: `ragcode setup-mcp --print` (secrets redacted by default).
-- Background freshness: `ragcode service install <repoRoot>` for a persistent watcher, or `ragcode watch <repoRoot>` for a foreground watcher.
+- Background freshness: read paths refresh stale indexed files on demand by default. Use `ragcode service install <repoRoot> --mode supervisor` for a light persistent event recorder, `--mode hot` for the legacy always-live watcher, or `ragcode watch <repoRoot>` for a foreground watcher.
 - CLI update: `ragcode update` when the local RagCode CLI is globally installed.
 
 Never route configuration through the Web dashboard.

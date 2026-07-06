@@ -6,8 +6,8 @@ Server name: `ragcode` (stdio). All tools accept `repoRoot` (optional when a wor
 
 - `index_repo` `{ repoRoot }` — build/refresh the index. Run this first on a new repo.
 - `refresh_index` `{ repoRoot? }` — incremental refresh of dirty files.
-- `index_status` `{ repoRoot? }` — counts, freshness, dirty/pending files. Check before trusting stale answers.
-- `watch_status` `{ repoRoot? }` — read-only watcher liveness and backlog. It never starts a watcher.
+- `index_status` `{ repoRoot?, full? }` — light freshness/dirty status by default; pass `full: true` only when chunk, symbol, edge, and semantic-store counts are needed.
+- `watch_status` `{ repoRoot?, full? }` — read-only watcher/supervisor liveness and backlog. It never starts a watcher.
 
 ## Primary retrieval tools (prefer these)
 
@@ -33,5 +33,5 @@ Server name: `ragcode` (stdio). All tools accept `repoRoot` (optional when a wor
 - Risky refactor: `impact_analysis` → `verified_subgraph` (mode `impact`) → `related_tests`.
 - Chinese/code-mixed query: preserve the user query, add exact symbols/paths if known, call `get_context`, then inspect `trace.queryPlan.detectedLanguage`, `termCategories`, and weighted match reasons.
 - Reranker concern: inspect `diagnostics.reranker.status`, `provider`, `candidateCount`, `scoredCount`, and `error`; failed external reranker calls should still have graph-reranked fallback results.
-- Stale/no data: `index_status` → `refresh_index` for stale indexed repos or `index_repo` for missing indexes → retry original tool.
-- Auto-refresh concern: `watch_status`; if not running, use/suggest `ragcode service install <repoRoot>` for persistent freshness or `ragcode watch <repoRoot>` for a foreground watcher.
+- Stale/no data: `index_status` → `refresh_index` for stale indexed repos or `index_repo` for missing indexes → retry original tool. v0.1.11 read paths also refresh a bounded dirty set on demand before answering.
+- Auto-refresh concern: `watch_status`; if not running, remember lazy read-time refresh may still be enough. Use/suggest `ragcode service install <repoRoot> --mode supervisor` for a light resident event recorder, `--mode hot` for the legacy always-live watcher, or `ragcode watch <repoRoot>` for a foreground watcher.

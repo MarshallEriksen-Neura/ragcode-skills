@@ -1,12 +1,13 @@
 # RagCode CLI Reference (for agents)
 
-All read commands require the repo to be indexed first (`ragcode index <repoRoot>`). Reads resolve runtime config via CLI args > env > `<repoRoot>/.ragcode/config.json` > offline-first defaults (sqlite + lancedb + deterministic).
+Read commands require an existing index, then refresh stale indexed files on demand by default. Reads resolve runtime config via CLI args > env > `<repoRoot>/.ragcode/config.json` > offline-first defaults (sqlite + lancedb + deterministic). User-facing `ragcode configure --show` / `--test` resolve the saved repo config first and redact secrets.
 
 ## Health and state
 
 ```bash
 ragcode doctor [repoRoot] --query "<smoke query>"  # deps, runtime config (redacted), MCP registration, optional index/search smoke
-ragcode status <repoRoot>                          # persisted index + dirty watcher state, no indexing
+ragcode status <repoRoot>                          # light persisted index + dirty watcher state, no heavy store load
+ragcode status <repoRoot> --full                   # full graph/semantic/symbol/chunk status
 ragcode status-human <repoRoot>                    # human-readable watch/index/embedding status
 ragcode status-ui <repoRoot>                       # alias for status-human
 ragcode service status <repoRoot>                  # background watcher service/liveness status
@@ -22,7 +23,9 @@ ragcode index <repoRoot> --semantic-on-bootstrap  # also write vectors for first
 ragcode index <repoRoot> --full                   # force legacy all-at-once index
 ragcode watch <repoRoot>          # long-lived watcher daemon with background refresh
 ragcode watch <repoRoot> [--max-batch-files N] [--max-analysis-memory-mb N]
-ragcode service install <repoRoot> [--index-now] [--bootstrap-batch-size N]
+ragcode service install <repoRoot>                 # lazy mode: installs no resident watcher
+ragcode service install <repoRoot> --mode supervisor [--index-now] [--bootstrap-batch-size N]
+ragcode service install <repoRoot> --mode hot [--index-now] [--bootstrap-batch-size N]
 ragcode service uninstall <repoRoot>
 ```
 
@@ -41,6 +44,8 @@ ragcode tests <repoRoot> <fileOrSymbol>
 ragcode trace-request-flow <repoRoot> <entry>
 ragcode expand-node <repoRoot> <file[:symbol]> [--expansion focused_body|full_body|skeleton|file_card]
 ```
+
+Retrieval/read commands accept `--stale-ok` / `--no-refresh` to return existing index results without on-demand refresh, `--refresh` to force refresh, and `--max-analysis-memory-mb N` to bound refresh memory. `RAGCODE_REFRESH_ON_READ=off|stale-ok|no-refresh` disables read-time refresh globally; `force|force-refresh|always` forces it.
 
 ## Setup and configuration
 
