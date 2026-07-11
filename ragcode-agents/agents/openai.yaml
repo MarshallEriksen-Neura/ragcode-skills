@@ -1,0 +1,4 @@
+interface:
+  display_name: "RagCode Agents"
+  short_description: "Orchestrate multi-agent workflows with validated DAG specs"
+  default_prompt: "Use $ragcode-agents to turn a multi-agent collaboration pattern into a validated workflow spec, then run it with review gates and bounded fix loops."

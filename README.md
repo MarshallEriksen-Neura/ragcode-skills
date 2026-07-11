@@ -4,14 +4,15 @@
 
 Reusable agent skills for using [RagCode](https://github.com/MarshallEriksen-Neura/ragcode) as a local code-intelligence and shared-memory layer.
 
-This repository is the source bundle for two skills:
+This repository is the source bundle for three skills:
 
 - `ragcode-context` routes code understanding, ownership, impact, related-test, flow, review, freshness, and setup questions through RagCode MCP tools first, with CLI fallback.
 - `ragcode-memory` routes project-scoped shared memory work through RagCode MCP memory tools (`memory_write`, `memory_query`, `memory_list`, `memory_delete`) so decisions, preferences, and cross-agent feedback persist.
+- `ragcode-agents` orchestrates multi-agent workflows (codex/claude/gemini/grok) through a validated DAG spec with review gates, bounded fix loops, and an append-only run ledger. Turn a natural-language collaboration pattern into a validated workflow, then run it via `ragcode agents run`.
 
 ## Install
 
-Install both RagCode skills:
+Install all three RagCode skills:
 
 ```bash
 npx skills add MarshallEriksen-Neura/ragcode-skills
@@ -22,6 +23,7 @@ Install only one skill explicitly:
 ```bash
 npx skills add MarshallEriksen-Neura/ragcode-skills --skill ragcode-context
 npx skills add MarshallEriksen-Neura/ragcode-skills --skill ragcode-memory
+npx skills add MarshallEriksen-Neura/ragcode-skills --skill ragcode-agents
 ```
 
 Install globally instead of project-local:
@@ -33,7 +35,7 @@ npx skills add MarshallEriksen-Neura/ragcode-skills --global
 Update installed RagCode skills:
 
 ```bash
-npx skills update ragcode-context ragcode-memory
+npx skills update ragcode-context ragcode-memory ragcode-agents
 ```
 
 ## Prerequisites
@@ -70,6 +72,7 @@ The expected list is:
 ```text
 ragcode-context
 ragcode-memory
+ragcode-agents
 ```
 
 Generate a one-off prompt without installing:
@@ -77,11 +80,12 @@ Generate a one-off prompt without installing:
 ```bash
 npx skills use MarshallEriksen-Neura/ragcode-skills --skill ragcode-context
 npx skills use MarshallEriksen-Neura/ragcode-skills --skill ragcode-memory
+npx skills use MarshallEriksen-Neura/ragcode-skills --skill ragcode-agents
 ```
 
 ## Publishing
 
-The `MarshallEriksen-Neura/ragcode-skills` repository should publish this bundle layout as its root: root `README.md`, sibling `ragcode-context/`, and sibling `ragcode-memory/`. Publishing only `ragcode-context/` makes `npx skills add MarshallEriksen-Neura/ragcode-skills` discover only `ragcode-context`, leaving `ragcode-memory` out of normal install and update flows.
+The `MarshallEriksen-Neura/ragcode-skills` repository should publish this bundle layout as its root: root `README.md`, sibling `ragcode-context/`, sibling `ragcode-memory/`, and sibling `ragcode-agents/`. Publishing only `ragcode-context/` makes `npx skills add MarshallEriksen-Neura/ragcode-skills` discover only `ragcode-context`, leaving `ragcode-memory` and `ragcode-agents` out of normal install and update flows.
 
 ## Files
 
@@ -95,4 +99,10 @@ ragcode-context/
 ragcode-memory/
   SKILL.md                 # agent routing instructions for shared memory
   agents/openai.yaml       # OpenAI/Codex metadata
+
+ragcode-agents/
+  SKILL.md                      # agent routing instructions for multi-agent workflow orchestration
+  agents/openai.yaml            # OpenAI/Codex metadata
+  references/workflow-schema.md  # workflow spec schema, validation rules, and presets
+  references/cli.md              # agents CLI reference and error recovery
 ```
