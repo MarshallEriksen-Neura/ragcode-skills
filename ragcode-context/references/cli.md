@@ -11,6 +11,7 @@ ragcode status <repoRoot> --full                   # full graph/semantic/symbol/
 ragcode status-human <repoRoot>                    # human-readable watch/index/embedding status
 ragcode status-ui <repoRoot>                       # alias for status-human
 ragcode service status <repoRoot>                  # background watcher service/liveness status
+ragcode semantic-status <repoRoot>                 # semantic cache profile, coverage, active generation, rebuild hints
 ```
 
 ## Indexing
@@ -30,6 +31,17 @@ ragcode service uninstall <repoRoot>
 ```
 
 Empty indexes use a bounded bootstrap batch by default. Remaining files are persisted as pending dirty state and progress is written to `.ragcode/index-state.json` / `.ragcode/index-progress.jsonl`. `service install` does not block on a full index unless `--index-now` is provided.
+
+## Semantic lifecycle
+
+```bash
+ragcode semantic-status <repoRoot>
+ragcode semantic-rebuild <repoRoot> [--dry-run] [--mode raw|raw_v1|soul_card|soul_card_v1] [--promote]
+ragcode semantic-promote <repoRoot> <generation>
+ragcode semantic-rollback <repoRoot>
+ragcode semantic-prune <repoRoot> [--apply]
+ragcode semantic-optimize <repoRoot>
+```
 
 ## Retrieval
 
@@ -53,9 +65,19 @@ Retrieval/read commands accept `--stale-ok` / `--no-refresh` to return existing 
 ragcode init [dir] [--defaults]      # first-run config; --defaults writes offline-first config without prompts
 ragcode configure [repoRoot]         # edit storage/embedding config; --show prints effective config; --test verifies embedding
 ragcode setup-mcp [--print] [--include-secrets] [--force] [--client claude|claude-code|codex|generic]
+ragcode install-guidance [repoRoot]  # install repo-local agent instructions for proactive RagCode usage
 ragcode mcp                          # start the MCP server over stdio
 ragcode update [--check]              # update globally-installed RagCode CLI, or check latest
 ragcode dashboard                    # Web observability API (humans only)
+```
+
+## Memory CLI fallback
+
+```bash
+ragcode memory write <topic> --type <type> --title "<title>" --body "<markdown>"
+ragcode memory query "<query>" [--mode exact|semantic|hybrid] [--limit <n>]
+ragcode memory list [--type <type>] [--topic <topic>] [--limit <n>]
+ragcode memory delete <id> --reason "<reason>"
 ```
 
 External reranking is configured separately from embeddings through env/config keys, not a separate CLI command:

@@ -4,7 +4,7 @@ Reusable agent skill for using [RagCode](https://github.com/MarshallEriksen-Neur
 
 The `ragcode-memory` skill teaches agents to read prior decisions, user preferences, architectural choices, corrections, and cross-agent feedback before acting, then record new durable insights through RagCode MCP memory tools.
 
-This skill is published together with `ragcode-context` in the `MarshallEriksen-Neura/ragcode-skills` bundle. Default `npx skills add MarshallEriksen-Neura/ragcode-skills` installs both skills; use `--skill ragcode-memory` only when you want this skill alone.
+This skill is published together with `ragcode-context` and `ragcode-agents` in the `MarshallEriksen-Neura/ragcode-skills` bundle. Default `npx skills add MarshallEriksen-Neura/ragcode-skills` installs all three skills; use `--skill ragcode-memory` only when you want this skill alone.
 
 ## Install
 
@@ -35,7 +35,7 @@ ragcode setup-mcp --client codex
 ragcode index .
 ```
 
-The memory skill requires the RagCode MCP server because it calls `memory_write`, `memory_query`, `memory_list`, and `memory_delete`.
+The memory skill prefers the RagCode MCP server because it can call `memory_write`, `memory_query`, `memory_list`, and `memory_delete` with structured results. When MCP is unavailable, use the CLI fallback: `ragcode memory write|query|list|delete`.
 
 ## What The Skill Does
 

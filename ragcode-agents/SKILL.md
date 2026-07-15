@@ -58,7 +58,10 @@ ragcode agents status . --run <runId>
 ragcode agents report . --run <runId>
 ragcode agents resume . --run <runId> --workflow <path> --task "<task>"
 ragcode agents cancel . --run <runId>
-ragcode agents list .
+ragcode agents list .                                                   # list durable run ids
+ragcode agents start . --workflow <path> --task "<task>"                # detached run
+ragcode agents events . --run <runId> --no-follow                       # ledger event stream snapshot
+ragcode agents invoke . --run <runId> --message "<message>"             # mid-turn message to active node
 ```
 
 `--json` is available on most commands. Read `references/cli.md` for the full command reference and error recovery.

@@ -1,6 +1,6 @@
 ---
 name: ragcode-memory
-description: Manage shared cross-AI memories for this project through RagCode MCP tools (memory_write, memory_query, memory_list, memory_delete). Read prior decisions, user preferences, and feedback written by other AI agents, and record new insights so they persist across sessions and agents. Trigger when context involves past decisions, user preferences, architectural choices, corrections, or when switching between AI agents (Claude, Codex, Cursor, JoyCode).
+description: Manage shared cross-AI memories for this project through RagCode MCP tools (memory_write, memory_query, memory_list, memory_delete), with ragcode memory CLI fallback when MCP is unavailable. Read prior decisions, user preferences, and feedback written by other AI agents, and record new insights so they persist across sessions and agents. Trigger when context involves past decisions, user preferences, architectural choices, corrections, or when switching between AI agents (Claude, Codex, Cursor, JoyCode).
 ---
 
 # RagCode Memory
@@ -32,6 +32,17 @@ agent — it does not leak across projects.
 | Search memories | `memory_query` | before risky changes, when hints appear, checking past decisions |
 | List / browse | `memory_list` | session start, agent switch, catching up (chronological) |
 | Remove | `memory_delete` | memory is wrong (prefer `supersede` on write instead) |
+
+## CLI fallback (MCP unavailable)
+
+```bash
+ragcode memory write <topic> --type <type> --title "<title>" --body "<markdown>"
+ragcode memory query "<query>" [--mode exact|semantic|hybrid] [--limit <n>]
+ragcode memory list [--type <type>] [--topic <topic>] [--limit <n>]
+ragcode memory delete <id> --reason "<reason>"
+```
+
+Prefer MCP tools when available because they preserve structured results for the calling agent. Use the CLI fallback for local diagnostics, recovery, or non-MCP agent surfaces.
 
 ## Memory types
 

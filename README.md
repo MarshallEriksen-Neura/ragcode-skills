@@ -7,7 +7,7 @@ Reusable agent skills for using [RagCode](https://github.com/MarshallEriksen-Neu
 This repository is the source bundle for three skills:
 
 - `ragcode-context` routes code understanding, ownership, impact, related-test, flow, review, freshness, and setup questions through RagCode MCP tools first, with CLI fallback.
-- `ragcode-memory` routes project-scoped shared memory work through RagCode MCP memory tools (`memory_write`, `memory_query`, `memory_list`, `memory_delete`) so decisions, preferences, and cross-agent feedback persist.
+- `ragcode-memory` routes project-scoped shared memory work through RagCode MCP memory tools (`memory_write`, `memory_query`, `memory_list`, `memory_delete`) first, with `ragcode memory write|query|list|delete` CLI fallback.
 - `ragcode-agents` orchestrates multi-agent workflows (codex/claude/gemini/grok) through a validated DAG spec with review gates, bounded fix loops, and an append-only run ledger. Turn a natural-language collaboration pattern into a validated workflow, then run it via `ragcode agents run`.
 
 ## Install

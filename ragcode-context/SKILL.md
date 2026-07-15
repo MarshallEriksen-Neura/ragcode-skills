@@ -46,10 +46,15 @@ ragcode status <repoRoot> --full                   # detailed graph/semantic cou
 ragcode refresh <repoRoot>                         # refresh an already-indexed repo
 ragcode service status <repoRoot>                  # background watcher service/liveness status
 ragcode status-human <repoRoot>                    # human-readable watch/index/embedding status
+ragcode search <repoRoot> "<query>"                # search code
 ragcode context <repoRoot> "<query>"               # context pack
 ragcode owner <repoRoot> "<query>"                 # ownership
+ragcode reuse <repoRoot> "<query>"                 # reusable existing code
+ragcode expand-node <repoRoot> <nodeRef>           # expand one compact subgraph node
 ragcode impact <repoRoot> <fileOrSymbol>           # impact analysis
+ragcode explain-impact <repoRoot> <target>         # verified minimal blast-radius subgraph
 ragcode tests <repoRoot> <fileOrSymbol>            # related tests
+ragcode trace-request-flow <repoRoot> <entry>      # request/data flow trace
 ```
 
 Read `references/cli.md` for the full command list.
