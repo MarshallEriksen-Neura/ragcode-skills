@@ -79,8 +79,8 @@ they transparently fall back to keyword search. Results are ranked by MQS_v3
 
 ## Lifecycle (automatic — you don't manage this)
 
-- Memories are **verified** against the codebase when the repo is re-indexed;
-  stale/invalid ones are marked and de-prioritized.
+- Memories start as **unverified** and are checked against the codebase when the repo is re-indexed. `evidenceRoots` can identify sibling repositories that own referenced evidence.
+- Invalid memories remain visible to administrative `memory_list`, but are excluded from `memory_query` and automatic context injection by default; stale memories remain eligible with a lower verification score.
 - Low-value and long-idle memories are **archived** automatically by the
   maintenance pass; near-duplicates are **merged** (superseded to the best copy).
 - **Injection**: `get_context` attaches the most relevant memories as
